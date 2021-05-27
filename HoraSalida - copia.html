@@ -1,4 +1,4 @@
-﻿<html lang="en">
+﻿<html lang=es>
   
 <head>
   <meta charset="utf-8">
@@ -69,108 +69,38 @@
   <p id="resultadohoras"></p>
   <p></p>
   <hr style="border-top:1px dotted #ccc;"/>
-  <div id="reloj" style="font-family: 'DS-Digital'; width: 450px; font-size:50px; color: rgb(9, 91, 199) ; text-align: center "></div>
-      
+  <p id="fecha"></p><script>$("#fecha").text(Date());</script>
   <div class="col-md-3"></div>
 	<div class="col-md-6 well">
-		<h4 class="text-primary">Alarma<span class="material-icons">
+		<h4 class="text-primary">Ajustar Alarma<span class="material-icons">
         alarm
       </span></h4>
 		<hr style="border-top:1px dotted #ccc;"/>
 		
 			<input type="datetime-local" id="alarmTime"/>
-			<button type="button" onclick="setAlarm(this);" id="alarmButton" class="btn btn-success"><span class="glyphicon glyphicon-time"></span> Activar Alarma</button>
+			<button type="button" onclick="setAlarm(this);" id="alarmButton" class="btn btn-success"><span class="glyphicon glyphicon-time"></span> Set Alarm</button>
 		
 		<br />
 		<div id="selectButton" style="display:none;">
 			
-				<button onclick="snoozeAlarm();" class="btn btn-warning"><span class="glyphicon glyphicon-pause"></span> Snooze 5 minutos</button>
-				<button onclick="stopAlarm();" class="btn btn-danger"><span class="glyphicon glyphicon-stop"></span> Stop Alarma</button>
+				<button onclick="snoozeAlarm();" class="btn btn-warning"><span class="glyphicon glyphicon-pause"></span> Snooze 5 minutes</button>
+				<button onclick="stopAlarm();" class="btn btn-danger"><span class="glyphicon glyphicon-stop"></span> Stop Alarm</button>
 		
 		</div>
 	</div>
 
-  
+  <button class="btn"  onclick="play();">play</button>
 
 </div></div>
 
 
 
 <script>
-
-//Alarma
-var sound = new Audio();
-sound.src = 'bell.mp3';
-var timer;
-
-
-function setAlarm(el){
-	var time = document.getElementById('alarmTime').valueAsNumber;
-	if(isNaN(time)){
-		alert("Introduce Fecha/Hora correctas");
-		return;
-	}
-
-  var alarm = new Date(time);
-  var alarmTime = new Date(alarm.getUTCFullYear(), alarm.getUTCMonth(), alarm.getUTCDate(), alarm.getUTCHours(), alarm.getUTCMinutes(), alarm.getUTCSeconds());
-  var duration = alarmTime.getTime() - (new Date()).getTime();
-
-	if(duration < 0){
-		alert('Tiempo anterior!');
-		return;
-	}
-	
-	timer = setTimeout(initAlarm, duration);
-	el.innerHTML = "<span class='glyphicon glyphicon-remove'></span> Cancelar Alarma";
-	el.setAttribute('onclick', 'cancelAlarm(this);');
-	el.setAttribute('class', 'btn btn-danger');
-
-}
-
-//funciones reloj alarma
-
-function cancelAlarm(el){
-	el.innerHTML = "<span class='glyphicon glyphicon-time'></span> Set Alarm";
-	el.setAttribute('onclick', 'setAlarm(this);');
-	el.setAttribute('class', 'btn btn-success');
-	clearTimeout(timer);
-}
-
-function initAlarm(){
-	sound.loop = true;
-	sound.play();
-	document.getElementById('alarmButton').style.display = 'none';
-	document.getElementById('selectButton').style.display = '';
-}
-
-function stopAlarm(){
-	sound.pause();
-	sound.currentTime = 0;
-	document.getElementById('selectButton').style.display = 'none';
-	cancelAlarm(document.getElementById('alarmButton'));
-	document.getElementById('alarmButton').style.display = '';
-}
-
-function snoozeAlarm(){
-	stopAlarm();
-	setTimeout(initAlarm, 300000);
-	button.innerText = "Cancel Alarm";
-	button.setAttribute('onclick', 'cancelAlarm(this);');
-}
-
-
-//reloj hora actual
-var Hoy = new Date();
-    var hora = Hoy.getUTCHours;
-    var minutos = Hoy.getUTCMinutes;
-    var segundos = Hoy.getSeconds;
-    $("reloj").text(hora + ":" + minutos + ":" + segundos);
-
-
-
 //jlse mayo 2021
 //Cálculo hora salida mínima
 // pausa mínima 30min si inferior se suman 30min, si superior la pausa real.
+
+
 
 var HoraEntradaNum  = 8.0;
 var PausaEntradaNum = 13.0;
@@ -178,9 +108,7 @@ var PausaSalidaNum  = 13.5;
 var HoraSalidaNum   = 17.0;
 
 
-
-
-$(document).ready(function() {
+ $(document).ready(function() {
 //página cargada y ready
    
   if ($("#horaentrada").val() == '') {
@@ -194,7 +122,7 @@ $(document).ready(function() {
 
   
 //eventos change de los input time
-$("#horaentrada").change(function(){
+  $("#horaentrada").change(function(){
 
     var HoraEntrada = $("#horaentrada").val();
     var hrs  = Number(HoraEntrada.split(':')[0]);
@@ -203,7 +131,7 @@ $("#horaentrada").change(function(){
     main();
   })
 
-$("#pausaentrada").change(function(){
+  $("#pausaentrada").change(function(){
 
     var PausaEntrada = $("#pausaentrada").val();
     var hrs  = Number(PausaEntrada.split(':')[0]);
@@ -262,7 +190,7 @@ if (horastrabajodiff == 0) {
   
 }
 
-
+})
  
 //funciones auxiliares conversión
 
@@ -285,8 +213,10 @@ function round_dec(value, decimals) {
 }
 
 
-})
-
+function play() {
+  var audio = new Audio('bell.mp3');
+  audio.play();
+}
 </script>
 
 </body></html>
