@@ -69,23 +69,20 @@
   <p id="resultadohoras"></p>
   <p></p>
   <hr style="border-top:1px dotted #ccc;"/>
-  <div id="reloj" style="font-family: 'DS-Digital'; width: 450px; font-size:50px; color: rgb(9, 91, 199) ; text-align: center "></div>
-      
+  
+   
   <div class="col-md-3"></div>
 	<div class="col-md-6 well">
-		<h4 class="text-primary">Alarma<span class="material-icons">
-        alarm
-      </span></h4>
-		<hr style="border-top:1px dotted #ccc;"/>
+		<h4 class="text-primary">Alarma<span class="material-icons">alarm</span></h4>
+    <h4 id="reloj"></h4>	
+		<input type="datetime-local" id="alarmTime"/>
+    <br><br>
+		<button type="button" onclick="setAlarm(this);" id="alarmButton" class="btn btn-success">Activar Alarma</button>
 		
-			<input type="datetime-local" id="alarmTime"/>
-			<button type="button" onclick="setAlarm(this);" id="alarmButton" class="btn btn-success"><span class="glyphicon glyphicon-time"></span> Activar Alarma</button>
-		
-		<br />
 		<div id="selectButton" style="display:none;">
 			
-				<button onclick="snoozeAlarm();" class="btn btn-warning"><span class="glyphicon glyphicon-pause"></span> Snooze 5 minutos</button>
-				<button onclick="stopAlarm();" class="btn btn-danger"><span class="glyphicon glyphicon-stop"></span> Stop Alarma</button>
+				<button onclick="snoozeAlarm();" class="btn btn-warning"> Snooze 5 minutos</button>
+				<button onclick="stopAlarm();" class="btn btn-danger">Stop Alarma</button>
 		
 		</div>
 	</div>
@@ -102,7 +99,6 @@
 var sound = new Audio();
 sound.src = 'bell.mp3';
 var timer;
-
 
 function setAlarm(el){
 	var time = document.getElementById('alarmTime').valueAsNumber;
@@ -127,7 +123,7 @@ function setAlarm(el){
 
 }
 
-//funciones  alarma
+//funciones  auxiliares alarma
 
 function cancelAlarm(el){
 	el.innerHTML = "<span class='glyphicon glyphicon-time'></span> Set Alarm";
@@ -159,12 +155,8 @@ function snoozeAlarm(){
 }
 
 
-//reloj hora actual
-    var Hoy = new Date();
-    var hora = Hoy.getUTCHours;
-    var minutos = Hoy.getUTCMinutes;
-    var segundos = Hoy.getSeconds;
-    $("reloj").text(hora + ":" + minutos + ":" + segundos);
+
+    
 
 
 
@@ -182,7 +174,19 @@ var HoraSalidaNum   = 17.0;
 
 $(document).ready(function() {
 //página cargada y ready
+
+
+//reloj hora actual
+var horareloj = setInterval(reloj,1000);
+function reloj(){
+  var Hoy = new Date();
+  document.getElementById("reloj").innerHTML = Hoy.toLocaleTimeString();
+}
+
+
    
+
+// Inicializar campos entrada hora
   if ($("#horaentrada").val() == '') {
     $("#horaentrada").val('08:00');
     $("#pausaentrada").val('13:00');
